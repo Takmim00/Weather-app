@@ -1,16 +1,16 @@
-import { useState } from 'react'
-import './App.css'
+import DisplayWeather from "./components/DisplayWeather";
+import "./index.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <>
       <div>
-        <h1 className='text-8xl text-center font-bold my-20'>Hi</h1>
+        <DisplayWeather />
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
