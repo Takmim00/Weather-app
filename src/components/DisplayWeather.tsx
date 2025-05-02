@@ -1,42 +1,49 @@
-import {
-  WiDaySunny, WiHumidity,
-} from 'react-icons/wi';
-import { LuSearch } from 'react-icons/lu';
-import { FaWind } from 'react-icons/fa';
-import { BsCloudRainFill, BsCloudFog2Fill } from 'react-icons/bs';
-import { IoIosCloud } from 'react-icons/io';
-import { TiWeatherPartlySunny } from 'react-icons/ti';
-import { FiLoader } from 'react-icons/fi';
+import { BsCloudFog2Fill, BsCloudRainFill } from "react-icons/bs";
+import { FaWind } from "react-icons/fa";
+import { FiLoader } from "react-icons/fi";
+import { IoIosCloud } from "react-icons/io";
+import { LuSearch } from "react-icons/lu";
+import { TiWeatherPartlySunny } from "react-icons/ti";
+import { WiDaySunny, WiHumidity } from "react-icons/wi";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
-import { useState } from 'react';
-import { fetchWeather } from '../redux/weather/weatherSlice';
+import { useState } from "react";
+import { useAppDispatch } from "../redux/hook";
+import { RootState } from "../redux/store";
+import { fetchWeather } from "../redux/weather/weatherSlice";
 
 
 const WeatherCard = () => {
-  const [city, setCity] = useState('');
-  const dispatch = useDispatch();
-  const { data, loading, error } = useSelector((state) => state.weather);
+  const [city, setCity] = useState("");
+  const dispatch = useAppDispatch();
 
-  const getWeatherIcon = (condition) => {
+  const { data, loading, error } = useSelector(
+    (state: RootState) => state.weather
+  );
+
+  const getWeatherIcon = (condition: string) => {
     const main = condition.toLowerCase();
-    if (main.includes("clear")) return <WiDaySunny className="text-yellow-400 text-7xl" />;
-    if (main.includes("cloud")) return <IoIosCloud className="text-gray-500 text-7xl" />;
-    if (main.includes("rain")) return <BsCloudRainFill className="text-blue-500 text-7xl" />;
-    if (main.includes("fog") || main.includes("mist")) return <BsCloudFog2Fill className="text-gray-400 text-7xl" />;
-    if (main.includes("haze") || main.includes("smoke")) return <TiWeatherPartlySunny className="text-orange-300 text-7xl" />;
+    if (main.includes("clear"))
+      return <WiDaySunny className="text-yellow-400 text-7xl" />;
+    if (main.includes("cloud"))
+      return <IoIosCloud className="text-gray-500 text-7xl" />;
+    if (main.includes("rain"))
+      return <BsCloudRainFill className="text-blue-500 text-7xl" />;
+    if (main.includes("fog") || main.includes("mist"))
+      return <BsCloudFog2Fill className="text-gray-400 text-7xl" />;
+    if (main.includes("haze") || main.includes("smoke"))
+      return <TiWeatherPartlySunny className="text-orange-300 text-7xl" />;
     return <FiLoader className="text-7xl animate-spin" />;
   };
 
   const handleSearch = () => {
-    if (city.trim() !== '') dispatch(fetchWeather(city));
+    if (city.trim() !== "") dispatch(fetchWeather(city));
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-green-100 p-4">
       <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-xl p-6 w-full max-w-sm text-center space-y-4">
-        
         {/* Search Bar */}
         <div className="relative">
           <input
@@ -58,22 +65,20 @@ const WeatherCard = () => {
           <p className="text-red-500">{error}</p>
         ) : data ? (
           <>
-            {/* Location */}
+            {/* Weather Details */}
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
               {data.name}
             </h2>
             <span className="text-sm text-gray-600">{data.sys.country}</span>
-
-            {/* Weather Icon */}
             <div className="flex justify-center">
               {getWeatherIcon(data.weather[0].main)}
             </div>
-
-            {/* Temperature */}
-            <p className="text-4xl font-semibold text-gray-800">{Math.round(data.main.temp)}°C</p>
-            <p className="text-lg text-gray-700">{data.weather[0].description}</p>
-
-            {/* Bottom Section */}
+            <p className="text-4xl font-semibold text-gray-800">
+              {Math.round(data.main.temp)}°C
+            </p>
+            <p className="text-lg text-gray-700">
+              {data.weather[0].description}
+            </p>
             <div className="bg-yellow-50 rounded-xl p-4 flex justify-between items-center text-gray-800">
               <div className="flex flex-col items-center w-1/2">
                 <div className="flex items-center gap-1 text-lg font-bold">
@@ -82,7 +87,6 @@ const WeatherCard = () => {
                 </div>
                 <p className="text-sm text-gray-500">Humidity</p>
               </div>
-
               <div className="flex flex-col items-center w-1/2">
                 <div className="flex items-center gap-1 text-lg font-bold">
                   <FaWind className="text-md" />
