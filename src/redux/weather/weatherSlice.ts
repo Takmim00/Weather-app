@@ -1,13 +1,13 @@
-// weatherSlice.ts
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { WeatherData } from "../weatherType";
 
 
-const apiKey = import.meta.env.NEXT_PUBLIC_VITE_APIkEY as string;
-const url = import.meta.env.NEXT_PUBLIC_VITE_ENDPOINT as string;
+const apiKey = import.meta.env.VITE_APIKEY;
+const url = import.meta.env.VITE_ENDPOINT ;
 
-// Define the state type for Redux slice
+
 interface WeatherState {
   data: WeatherData | null;
   loading: boolean;

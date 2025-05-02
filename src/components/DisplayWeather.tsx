@@ -13,7 +13,6 @@ import { useAppDispatch } from "../redux/hook";
 import { RootState } from "../redux/store";
 import { fetchWeather } from "../redux/weather/weatherSlice";
 
-
 const WeatherCard = () => {
   const [city, setCity] = useState("");
   const dispatch = useAppDispatch();
@@ -22,8 +21,8 @@ const WeatherCard = () => {
     (state: RootState) => state.weather
   );
 
-  const getWeatherIcon = (condition: string) => {
-    const main = condition.toLowerCase();
+  const getWeatherIcon = (condition: string | undefined) => {
+    const main = condition?.toLowerCase() || "";
     if (main.includes("clear"))
       return <WiDaySunny className="text-yellow-400 text-7xl" />;
     if (main.includes("cloud"))
@@ -69,28 +68,28 @@ const WeatherCard = () => {
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
               {data.name}
             </h2>
-            <span className="text-sm text-gray-600">{data.sys.country}</span>
+            <span className="text-sm text-gray-600">{data.sys?.country}</span>
             <div className="flex justify-center">
-              {getWeatherIcon(data.weather[0].main)}
+              {getWeatherIcon(data.weather?.[0]?.main)}
             </div>
             <p className="text-4xl font-semibold text-gray-800">
-              {Math.round(data.main.temp)}°C
+              {Math.round(data.main?.temp)}°C
             </p>
             <p className="text-lg text-gray-700">
-              {data.weather[0].description}
+              {data.weather?.[0]?.description}
             </p>
             <div className="bg-yellow-50 rounded-xl p-4 flex justify-between items-center text-gray-800">
               <div className="flex flex-col items-center w-1/2">
                 <div className="flex items-center gap-1 text-lg font-bold">
                   <WiHumidity className="text-xl" />
-                  {data.main.humidity}%
+                  {data.main?.humidity}%
                 </div>
                 <p className="text-sm text-gray-500">Humidity</p>
               </div>
               <div className="flex flex-col items-center w-1/2">
                 <div className="flex items-center gap-1 text-lg font-bold">
                   <FaWind className="text-md" />
-                  {(data.wind.speed * 3.6).toFixed(2)} km/h
+                  {(data.wind?.speed * 3.6).toFixed(2)} km/h
                 </div>
                 <p className="text-sm text-gray-500">Wind speed</p>
               </div>
