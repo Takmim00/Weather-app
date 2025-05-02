@@ -5,4 +5,5 @@ import tsconfigPaths from 'vite-tsconfig-paths'; // <--- Import this
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), tsconfigPaths()], // <--- Include it in the plugins array
+  base: process.env.VITE_URL || '/Weather-app'
 });
